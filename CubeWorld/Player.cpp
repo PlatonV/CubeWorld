@@ -1,6 +1,6 @@
 #include "Player.h"
 
-void Player::Init(void)
+void CW::Player::Init(void)
 {
 	mSize=50;
 
@@ -19,17 +19,17 @@ void Player::Init(void)
 	this->mPoints = quad;
 }
 
-void Player::MoveRight(void)
+void CW::Player::MoveRight(void)
 {
 	Velocity.x++;
 }
 
-void Player::MoveLeft(void)
+void CW::Player::MoveLeft(void)
 {
 	Velocity.x--;
 }
 
-void Player::Jump(void)
+void CW::Player::Jump(void)
 {
 	if(!mOnGround)
 		Velocity.y-=50;

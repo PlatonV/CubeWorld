@@ -2,21 +2,26 @@
 #define SCENEMANAGER_H
 #pragma once
 
-#include "SceneObject.h"
+#include "Precompiled.h"
 #include <vector>
 
-class SceneManager
+namespace CW
 {
-public:
-	SceneManager(void) {}
-	void Add(SceneObject* obj);
-	void Update(sf::Time dt);
-	~SceneManager(void) {}
-private:
-	std::vector<SceneObject*>::iterator objectsIT;
+	class SceneObject;
 
-	std::vector<SceneObject*> mObjects;
-};
+	class SceneManager
+	{
+	public:
+		SceneManager(void) {}
+		void Add(SceneObject* obj);
+		void Update(sf::Time dt);
+		~SceneManager(void) {}
+	private:
+		std::vector<SceneObject*>::iterator objectsIT;
+
+		std::vector<SceneObject*> mObjects;
+	};
+}
 
 #endif
 

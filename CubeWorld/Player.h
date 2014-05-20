@@ -2,35 +2,29 @@
 #define PLAYER_H
 #pragma once
 
-#include <SFML\Graphics.hpp>
-#include "SceneObject.h"
+#include "Precompiled.h"
 
-class Player : public sf::Drawable,  public SceneObject
+namespace CW
 {
-public:
-	Player(void) { isAffectedByGravity = true; }
-	void Init(void);
-
-	void MoveRight(void);
-	void MoveLeft(void);
-	void Jump(void);
-
-	~Player(void){}
-
-private:
-	sf::VertexArray	mPoints;
-	sf::Vector2f	Velocity;
-
-	float			mSize;
-	bool			mOnGround;
-
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+	class Player
 	{
-        states.transform *= getTransform();
+	public:
+		Player(void) {}
+		void Init(void);
 
-        // draw the vertex array
-		target.draw(mPoints, states.transform);
-	}
-};
+		void MoveRight(void);
+		void MoveLeft(void);
+		void Jump(void);
+
+		~Player(void){}
+
+	private:
+		sf::VertexArray	mPoints;
+		sf::Vector2f	Velocity;
+
+		float			mSize;
+		bool			mOnGround;
+	};
+}
 
 #endif

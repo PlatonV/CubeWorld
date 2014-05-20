@@ -4,19 +4,15 @@
 
 #include <SFML\Graphics.hpp>
 
-class SceneObject : public sf::Transformable
+namespace CW
 {
-public:
-	bool isAffectedByGravity;
-
-	sf::Vector2f Velocity;
-
-	SceneObject(void){}
-	SceneObject(bool affectedByGravity) 
-		: isAffectedByGravity(affectedByGravity)
-	{}
-	void Update(void);
-	~SceneObject(void){}
-};
+	class SceneObject
+	{
+	public:
+		SceneObject(void){}
+		void Update(void) {}
+		~SceneObject(void){}
+	};
+}
 
 #endif

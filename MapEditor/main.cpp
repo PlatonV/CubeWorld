@@ -2,9 +2,15 @@
 
 bool			gDrawGrid;
 
-float zoom;
+float			zoom;
 
 sf::Vector2i	gPrevMousePos;
+
+enum
+{
+	Hand,
+	AddTerrain
+}Tool;
 
 void ConstrainView(sf::View& view);
 
@@ -25,21 +31,16 @@ int main()
 
 	Grid grid(50);
 
+	Sky sky;
+
+	Map map;
+
 	window.setView(view);
-
-	sf::VertexArray sky(sf::Quads, 4);
-
-	sky[0].position = sf::Vector2f(0, 0);
-	sky[1].position = sf::Vector2f(10000, 0);
-	sky[2].position = sf::Vector2f(10000, 2000);
-	sky[3].position = sf::Vector2f(0, 2000);
-
-	sky[0].color = sf::Color(25,25,200,255);
-	sky[1].color = sf::Color(25,25,200,255);
-	sky[2].color = sf::Color(180,180,255,255);
-	sky[3].color = sf::Color(180,180,255,255);;
+	ConstrainView(view);
 
 	zoom = 1;
+
+	Tool = AddTerrain;
 
 	// MAIN LOOP
 	while (window.isOpen())
@@ -57,6 +58,17 @@ int main()
 			{
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
 					gDrawGrid = !gDrawGrid;
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::F1))
+					Tool = Hand;
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::F2))
+					Tool = AddTerrain;
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+				{
+					map.Export("map");
+				}
 			}
 			if (event.type == sf::Event::MouseWheelMoved)
 			{
@@ -67,8 +79,15 @@ int main()
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			view.move((sf::Vector2f)(gPrevMousePos - sf::Mouse::getPosition()) * zoom);
-			ConstrainView(view);
+			if (Tool == Hand)
+			{
+				view.move((sf::Vector2f)(gPrevMousePos - sf::Mouse::getPosition()) * zoom);
+				ConstrainView(view);
+			}
+			else if (Tool == AddTerrain)
+			{
+				map.AddTerrain(Vector2(window.mapPixelToCoords(sf::Mouse::getPosition(window)).x, window.mapPixelToCoords(sf::Mouse::getPosition(window)).y));
+			}
 		}
 		gPrevMousePos = sf::Mouse::getPosition();
 
@@ -80,7 +99,9 @@ int main()
 
 		// DRAWING HERE
 
-		window.draw(sky);
+		sky.Draw(window);
+
+		map.Draw(window);
 
 		if (gDrawGrid)
 		{
@@ -97,13 +118,23 @@ int main()
 
 void ConstrainView(sf::View& view)
 {
-	if(view.getCenter().x<1280/2)
+	if(view.getCenter().x < SCREEN_WIDTH/2)
 	{
-		view.setCenter(1280/2, view.getCenter().y);
+		view.setCenter(SCREEN_WIDTH/2, view.getCenter().y);
 	}
 
-	if(view.getCenter().y<760/2)
+	if(view.getCenter().x > WORLD_WIDTH - SCREEN_WIDTH/2)
 	{
-		view.setCenter(view.getCenter().x, 760/2);
+		view.setCenter(WORLD_WIDTH - SCREEN_WIDTH/2, view.getCenter().y);
+	}
+
+	if(view.getCenter().y < SCREEN_HEIGHT/2)
+	{
+		view.setCenter(view.getCenter().x, SCREEN_HEIGHT/2);
+	}
+
+	if(view.getCenter().y > WORLD_HEIGHT - SCREEN_HEIGHT/2)
+	{
+		view.setCenter(view.getCenter().x, WORLD_HEIGHT - SCREEN_HEIGHT/2);
 	}
 }

@@ -12,6 +12,15 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{040ba912-62fd-41ce-8853-a24815eaab0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Screens">
+      <UniqueIdentifier>{485e5791-4e2d-4ce3-8542-849e860f43a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ParticleEngine">
+      <UniqueIdentifier>{eccab0ff-e38f-4c81-a3b2-416ee9321931}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PhysicsEngine">
+      <UniqueIdentifier>{e6ee67b5-61f3-4255-8b54-123f5be47d5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -26,13 +35,58 @@
     <ClCompile Include="SceneObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Square.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Fire.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleEmitter.cpp">
+      <Filter>ParticleEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleEmitterFactory.cpp">
+      <Filter>ParticleEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleEngine.cpp">
+      <Filter>ParticleEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="DustParticle.cpp">
+      <Filter>ParticleEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalEmitter.cpp">
+      <Filter>ParticleEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Edge.cpp">
+      <Filter>PhysicsEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsBody.cpp">
+      <Filter>PhysicsEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsEngine.cpp">
+      <Filter>PhysicsEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="VerletPoint.cpp">
+      <Filter>PhysicsEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBox.cpp">
+      <Filter>PhysicsEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScreen.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -49,13 +103,70 @@
     <ClInclude Include="SceneObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Square.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Fire.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEmitter.h">
+      <Filter>ParticleEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEmitterFactory.h">
+      <Filter>ParticleEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>ParticleEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEngine.h">
+      <Filter>ParticleEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="DustParticle.h">
+      <Filter>ParticleEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalEmitter.h">
+      <Filter>ParticleEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Edge.h">
+      <Filter>PhysicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsBody.h">
+      <Filter>PhysicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsEngine.h">
+      <Filter>PhysicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="VerletPoint.h">
+      <Filter>PhysicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingBox.h">
+      <Filter>PhysicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScreen.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

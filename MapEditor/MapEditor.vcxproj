@@ -57,7 +57,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\SFML-2.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SFML_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SFML_STATIC;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -70,10 +70,22 @@
   <ItemGroup>
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Sky.cpp" />
+    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="TerrainBlock.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddTerrainCommand.h" />
+    <ClInclude Include="CommandBase.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Math.h" />
     <ClInclude Include="Precompiled.h" />
+    <ClInclude Include="Sky.h" />
+    <ClInclude Include="Terrain.h" />
+    <ClInclude Include="TerrainBlock.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

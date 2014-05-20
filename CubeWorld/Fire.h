@@ -2,25 +2,28 @@
 #define FIRE_H
 #pragma once
 
-#include "Light.h"
-#include "SceneObject.h"
 #include <deque>
 
-class Fire : public SceneObject
+namespace CW
 {
-public:
-	std::deque<Light> mParticles;
+	class Renderer;
+	class Vector2;
 
-    Fire(float x, float y)
-    {
-		this->setPosition(x,y);
-    }
+	class Fire
+	{
+	public:
+		Vector2 Position;
 
-    void Update(sf::Time dt);
-	~Fire(void){}
-private:
-	std::deque<Light>::iterator partIT;
+		Fire(float x, float y);
 
-    int t;
-};
+		void Update(float dt);
+		void Draw(Renderer* renderer);
+
+		~Fire(void){}
+	private:
+		std::deque<Light*> mParticles;
+
+		int t;
+	};
+}
 #endif 

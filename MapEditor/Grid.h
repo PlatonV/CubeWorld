@@ -5,7 +5,6 @@
 
 #include "SFML\Graphics.hpp"
 #include "SFML\OpenGL.hpp"
-#include <vector>
 
 class Grid : public sf::Drawable
 {
@@ -26,7 +25,7 @@ public:
 		for (unsigned int i = mCellSize; i < 2000; i+=mCellSize)
 		{
 			sf::Vertex v1 = sf::Vertex(sf::Vector2f(0, i));
-			sf::Vertex v2 = sf::Vertex(sf::Vector2f(10000 * mCellSize, i));
+			sf::Vertex v2 = sf::Vertex(sf::Vector2f(10000 / mCellSize * mCellSize, i));
 
 			mLinePoints.push_back(v1);
 			mLinePoints.push_back(v2);

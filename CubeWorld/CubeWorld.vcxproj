@@ -72,22 +72,56 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="BoundingBox.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="DustParticle.cpp" />
+    <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Fire.cpp" />
+    <ClCompile Include="GameScreen.cpp" />
+    <ClCompile Include="GlobalEmitter.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="ParticleEmitter.cpp" />
+    <ClCompile Include="ParticleEmitterFactory.cpp" />
+    <ClCompile Include="ParticleEngine.cpp" />
+    <ClCompile Include="PhysicsBody.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
-    <ClCompile Include="Square.cpp" />
+    <ClCompile Include="ScreenManager.cpp" />
+    <ClCompile Include="VerletPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="DustParticle.h" />
+    <ClInclude Include="Edge.h" />
     <ClInclude Include="Fire.h" />
+    <ClInclude Include="GameScreen.h" />
+    <ClInclude Include="GlobalEmitter.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Math.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleEmitter.h" />
+    <ClInclude Include="ParticleEmitterFactory.h" />
+    <ClInclude Include="ParticleEngine.h" />
+    <ClInclude Include="PhysicsBody.h" />
+    <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Precompiled.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneObject.h" />
-    <ClInclude Include="Square.h" />
+    <ClInclude Include="Screen.h" />
+    <ClInclude Include="ScreenManager.h" />
+    <ClInclude Include="VerletPoint.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Light.frag" />

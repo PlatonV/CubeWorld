@@ -2,41 +2,28 @@
 #define LIGHT_H
 #pragma once
 
-#include "SceneObject.h"
-
-class Light
+namespace CW
 {
-public:
-	sf::Vector2f Position;
-    float r;
-    float g;
-    float b;
-    float intensity;
-	sf::Vector2f Velocity;
+	class Renderer;
+	class Vector2;
 
-    Light(float _x, float _y, float _r, float _g, float _b, float inten)
-    {
-        r=_r;
-        g=_g;
-        b=_b;
+	class Light
+	{
+	public:
+		Vector2 Position;
+		float r;
+		float g;
+		float b;
+		float intensity;
+		Vector2 Velocity;
 
-        intensity = inten;
+		Light() {}
+		Light(float _x, float _y, float _r, float _g, float _b, float inten);
 
-		Position.x = _x;
-		Position.y = _y;
+		void Draw(Renderer* renderer);
 
-		Velocity.x = (float)(rand() % 4);
-        Velocity.x *= 10;
-
-        int r = rand() % 10;
-        r = r<5 ? r=1 : r=-1;
-        Velocity.x *= r;
-
-        Velocity.y = (float)(-rand() % 12 - 4);
-        Velocity.y *= 10;
-    }
-
-	~Light(void) {}
-};
+		~Light(void) {}
+	};
+}
 
 #endif
