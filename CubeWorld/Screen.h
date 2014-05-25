@@ -15,6 +15,9 @@ namespace CW
 		Screen()
 		{}
 
+		virtual void NotifyKeyPressed(sf::Keyboard::Key key) = 0;
+		virtual void NotifyKeyReleased(sf::Keyboard::Key key) = 0;
+
 		virtual void Update(float dt) = 0;
 		virtual void Draw(Renderer* renderer) = 0;
 

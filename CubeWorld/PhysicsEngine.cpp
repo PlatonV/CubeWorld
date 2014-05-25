@@ -3,7 +3,6 @@
 /*
 * PUBLIC MEMBERS
 */
-
 void CW::PhysicsEngine::AddBody(PhysicsBody* body)
 {
 	++BodyCount;
@@ -13,10 +12,22 @@ void CW::PhysicsEngine::AddBody(PhysicsBody* body)
 	{
 		AddVertex(p);
 	}
-	
+
 	for (Edge* e : body->Edges)
 	{
 		AddEdge(e);
+	}
+}
+
+void CW::PhysicsEngine::DeleteBody(PhysicsBody* body)
+{
+	for (int i=0;i<m_Bodies.size(); ++i)
+	{
+		if (m_Bodies[i]->Vertices[0] == body->Vertices[0])
+		{
+			m_Bodies.erase(m_Bodies.begin() + i);
+			break;
+		}
 	}
 }
 
@@ -29,6 +40,7 @@ void CW::PhysicsEngine::Update(void)
 
 void CW::PhysicsEngine::Draw(Renderer* renderer) 
 { 
+	glDisable(GL_BLEND);
 	for (PhysicsBody* b : m_Bodies)
 	{
 		sf::ConvexShape convex;
@@ -36,7 +48,7 @@ void CW::PhysicsEngine::Draw(Renderer* renderer)
 		// resize it to 5 points
 		convex.setPointCount(b->VertexCount);
 
-		convex.setFillColor(sf::Color::Red);
+		convex.setFillColor(sf::Color::Black);
 
 		for (int i=0; i<b->VertexCount; ++i)
 		{
@@ -44,18 +56,8 @@ void CW::PhysicsEngine::Draw(Renderer* renderer)
 		}
 
 		renderer->Draw(convex);
-
-		for (Edge* e : b->Edges)
-		{
-			sf::Vertex line[] =
-			{
-				sf::Vertex(sf::Vector2f(e->P1->Position.x, e->P1->Position.y)),
-				sf::Vertex(sf::Vector2f(e->P2->Position.x, e->P2->Position.y))
-			};
-
-			renderer->Draw(line, 2, sf::Lines);
-		}
 	}
+	glEnable(GL_BLEND);
 }
 
 /*
@@ -82,14 +84,36 @@ void CW::PhysicsEngine::UpdateForces(void)
 	}
 }
 
+void CW::PhysicsEngine::Scroll(float value) 
+{ 
+	for (VerletPoint* v : m_Vertices)
+	{
+		if (!v->IsStatic)
+		{
+			Vector2 Temp = v->Position;
+			v->Position += Vector2(value, 0);
+			v->OldPosition += Vector2(value, 0);
+			v->Friction = 1;
+
+		/*	if (v->Position.x > 500 && v->Position.y > 350)
+			{
+				v->OldPosition.x+=0.1;
+			}*/
+		}
+	}
+}
+
 void CW::PhysicsEngine::UpdateVerlet(void) 
 { 
 	for (VerletPoint* v : m_Vertices)
 	{
-		Vector2 Temp = v->Position;
-		v->Position += v->Friction * v->Position - v->Friction * v->OldPosition + v->Acceleration * m_Timestep * m_Timestep;
-		v->OldPosition = Temp;
-		v->Friction = 1;
+		if (!v->IsStatic)
+		{
+			Vector2 Temp = v->Position;
+			v->Position += v->Friction * v->Position - v->Friction * v->OldPosition + v->Acceleration * m_Timestep * m_Timestep;
+			v->OldPosition = Temp;
+			v->Friction = 1;
+		}
 	}
 }
 
@@ -102,14 +126,19 @@ void CW::PhysicsEngine::UpdateEdges()
 
 		// Current distance
 		float V1V2Length = V1V2.Length(); 
+
 		// Difference from the original length
 		float Diff = V1V2Length - e->Length; 
-		
+
 		V1V2.Normalize();
 
 		// Push both vertices apart by half of the difference to set both back to original length
-		e->P1->Position += V1V2*Diff*0.5f;
-		e->P2->Position -= V1V2*Diff*0.5f;
+		if (!e->P1->IsStatic) {
+			e->P1->Position += V1V2*Diff*0.5f;
+		}
+		if (!e->P2->IsStatic) {
+			e->P2->Position -= V1V2*Diff*0.5f;
+		}
 	}
 }
 
@@ -165,7 +194,7 @@ bool CW::PhysicsEngine::DetectCollision(PhysicsBody* b1, PhysicsBody* b2)
 
 	// Make sure collision normal is pointing at b1
 	int Sign = SGN(CollisionInfo.Normal*(b1->COM - b2->COM));
-	
+
 	//Remember that the line equation is N*( R - R0 ). We choose B2->Center as R0; the normal N is given by the collision normal
 
 	if(Sign != 1)
@@ -195,8 +224,8 @@ void CW::PhysicsEngine::ProcessCollision(void)
 	VerletPoint* p1 = CollisionInfo.E->P1;
 	VerletPoint* p2 = CollisionInfo.E->P2;
 
-	p1->Friction = 0.9f;
-	p2->Friction = 0.9f;
+	p1->Friction = 0.3f;
+	p2->Friction = 0.3f;
 
 	Vector2 CollisionVector = CollisionInfo.Normal*CollisionInfo.Depth;
 
@@ -208,36 +237,23 @@ void CW::PhysicsEngine::ProcessCollision(void)
 
 	float Lambda = 1.0f/( T*T + ( 1 - T )*( 1 - T ) );
 
-	p1->Position -= CollisionVector*( 1 - T )*0.5f*Lambda;
-	p2->Position -= CollisionVector*      T  *0.5f*Lambda;
-	
-	CollisionInfo.V->Position += CollisionVector*0.5f;
+	if (sm && !CollisionInfo.V->IsStatic)
+	{
+		sm->CreateSmoke(CollisionInfo.V->Position.x, CollisionInfo.V->Position.y);
+	}
+
+	if (!p1->IsStatic) {
+		p1->Position -= CollisionVector*( 1 - T )*0.5f*Lambda;
+	}
+	if (!CollisionInfo.V->IsStatic) {
+		CollisionInfo.V->Position += CollisionVector*0.5f;
+	}
 }
 
 void CW::PhysicsEngine::Iterate(void)
 {
 	for(int i = 0; i < m_Iterations; ++i) 
 	{
-		// Keep the vertices in the screen
-		for (VerletPoint* p : m_Vertices) 
-		{
-			if (p->Position.y > 600)
-			{
-				p->Position.y = 600;
-				p->Friction = 0.9f;
-			}
-			if (p->Position.x > 800)
-			{
-				p->Position.x = 800;
-				p->Friction = 0.9f;
-			}
-			if (p->Position.x < 0)
-			{
-				p->Position.x = 0;
-				p->Friction = 0.9f;
-			}
-		}
-
 		// Apply edge constraints
 		UpdateEdges();
 

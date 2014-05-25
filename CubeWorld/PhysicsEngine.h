@@ -12,26 +12,35 @@ namespace CW
 {
 	class Vector2;
 	class Renderer;
+	class SmokeManager;
 
 	class PhysicsEngine 
 	{
 	public:
+		//EXTRA SMOKE
+		SmokeManager* sm;
+
 		int		VertexCount;
 		int		EdgeCount;
 		int		BodyCount;
+
+		void Scroll(float value);
+
+		bool DetectCollision(PhysicsBody* b1, PhysicsBody*b2);
 
 		void Update(void);
 		void Draw(Renderer* renderer);
 
 		void AddBody(PhysicsBody* body);
+		void DeleteBody(PhysicsBody* body);
 
 		PhysicsEngine() :
-			Gravity(Vector2(0,0.5f)),
+			Gravity(Vector2(0,0.3f)),
 			VertexCount(0),
 			EdgeCount(0),
 			BodyCount(0),
 			m_Iterations(5),
-			m_Timestep(1)
+			m_Timestep(0.8f)
 		{}
 	private:
 		// FORCES
@@ -56,7 +65,6 @@ namespace CW
 
 		float IntervalDistance(float MinA, float MaxA, float MinB, float MaxB);
 
-		bool DetectCollision(PhysicsBody* b1, PhysicsBody*b2);
 		void ProcessCollision(void);
 
 		// COLLISION MANIFOLD

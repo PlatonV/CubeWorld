@@ -8,11 +8,12 @@ CW::Application::Application(void)
 void CW::Application::Init(void)
 {
 	sf::ContextSettings settings;
-	settings.antialiasingLevel = 8;
+	settings.antialiasingLevel = 4;
 
-	m_Window = new sf::RenderWindow(sf::VideoMode(1280, 760), "Cube World", sf::Style::Default, settings);
+	m_Window = new sf::RenderWindow(sf::VideoMode(1280, 760), "Cube World", sf::Style::Resize, settings);
 
 	m_Window->setFramerateLimit(60);
+	m_Window->setVerticalSyncEnabled(true);
 
 	renderer = new Renderer(m_Window);
 
@@ -28,10 +29,16 @@ void CW::Application::Init(void)
 	m_DisplayText.setFont(ArialFont);
 	m_DisplayText.setPosition(1175, 730);
 	m_DisplayText.setCharacterSize(14);
-	m_DisplayText.setString(sf::String("by Platon Vlad"));
+	m_DisplayText.setString(sf::String("by Vlad Platon"));
 	m_DisplayText.setColor(sf::Color::White);
 
 	DBOUT("Inited");
+}
+
+void CW::Application::Reset(void)
+{
+	sm.m_Screens.pop_back();
+	sm.AddScreen(new GameScreen(&sm, this));
 }
 
 int CW::Application::LoadBasicAssets(void)
@@ -68,17 +75,34 @@ void CW::Application::MainLoop(void)
 			{
 				m_Window->close();
 			}
+
+			if (e.type == sf::Event::KeyPressed)
+			{
+				sm.NotifyKeyPressed(e.key.code);
+			}
+
+			if (e.type == sf::Event::KeyReleased)
+			{
+				sm.NotifyKeyReleased(e.key.code);
+			}
 		}
 
 		m_Window->clear(sf::Color::Black);
 
-		sm.Update(1);
+		try
+		{
+			sf::Time t= updateClock.restart();
 
-		sm.Draw(renderer);
+			sm.Update(t.asMilliseconds()/10);
 
-		m_Window->draw(m_DisplayText);
+			sm.Draw(renderer);
 
-		m_Window->display();
+			m_Window->draw(m_DisplayText);
+
+			m_Window->display();
+		}
+		catch (int e)
+		{}
 	}
 }
 

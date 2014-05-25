@@ -18,9 +18,10 @@ namespace CW
 		PhysicsBody* Parent;
 
 		float Friction;
+		bool IsStatic;
 
-		VerletPoint(float posX, float posY); 
-		VerletPoint(PhysicsBody* parent, float posX, float posY); 
+		VerletPoint(float PosX, float PosY, bool isStatic = false); 
+		VerletPoint(PhysicsBody* parent, float PosX, float PosY, bool isStatic = false); 
 	};
 }
 

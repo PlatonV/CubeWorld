@@ -1,4 +1,4 @@
-#include "SceneManager.h"
+#include "Precompiled.h"
 
 void CW::SceneManager::Add(SceneObject* obj)
 {

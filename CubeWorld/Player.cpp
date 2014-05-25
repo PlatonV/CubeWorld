@@ -1,37 +1,157 @@
-#include "Player.h"
+#include "Precompiled.h"
+
+CW::Player::Player(float x, float y, Terrain* terrain)
+{
+	Position.x = x;
+	Position.y = y;
+
+	this->terrain = terrain;
+
+	Init();
+}
 
 void CW::Player::Init(void)
 {
-	mSize=50;
+	VerletPoint* V1 = new VerletPoint(Position.x, Position.y);
+	VerletPoint* V2 = new VerletPoint(Position.x+50, Position.y);
+	VerletPoint* V3 = new VerletPoint(Position.x+50, Position.y+50);
+	VerletPoint* V4 = new VerletPoint(Position.x, Position.y+50);
 
-	sf::VertexArray quad(sf::Quads, 4);
+	body = new PhysicsBody();
 
-	quad[0].position = sf::Vector2f(0,			0);
-	quad[1].position = sf::Vector2f(mSize/2,	0);
-	quad[2].position = sf::Vector2f(mSize/2,	mSize/2);
-	quad[3].position = sf::Vector2f(0,			mSize/2);
+	body->AddVertex(V1);
+	body->AddVertex(V2);
+	body->AddVertex(V3);
+	body->AddVertex(V4);
 
-	quad[0].color = sf::Color::Red;
-	quad[1].color = sf::Color::Red;
-	quad[2].color = sf::Color::Red;
-	quad[3].color = sf::Color::Red;
+	body->AddEdge(V1, V2, true);
+	body->AddEdge(V2, V3, true);
+	body->AddEdge(V3, V4, true);
+	body->AddEdge(V4, V1, true);
 
-	this->mPoints = quad;
+	Lives = 3;
 }
 
 void CW::Player::MoveRight(void)
 {
-	Velocity.x++;
+	if (mOnGround)
+	{
+		if (Velocity.x < 20 && Position.x < 1500)
+			Velocity.x++;
+	}
+	else
+	{
+		Velocity.x += 0.5f;
+	}
 }
 
 void CW::Player::MoveLeft(void)
 {
-	Velocity.x--;
+	if (mOnGround)
+	{
+		if (Velocity.x > -20 && Position.x > 10)
+			Velocity.x--;
+	}
+	else
+	{
+		Velocity.x -= 0.5f;
+	}
 }
 
 void CW::Player::Jump(void)
 {
-	if(!mOnGround)
-		Velocity.y-=50;
-	mOnGround = false;
+	if (mOnGround)
+	{
+		Velocity.y-=10;
+		mOnGround = false;
+	}
+}
+
+void CW::Player::Update(float dt)
+{
+	float groundY = terrain->GetHeight(Position.x);
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		MoveRight();
+	}
+	else
+	{
+		if (Velocity.x > 0)
+		{
+			Velocity.x /=1.5f;
+		}
+	}
+
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		MoveLeft();
+	}
+	else
+	{
+		if (Velocity.x < 0)
+		{
+			Velocity.x /=1.5f;
+		}
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		if (!mOnGround)
+		{
+			Velocity.y -= 0.3f;
+		}
+	}
+
+	Velocity.y += 0.5f;
+
+	Position += Velocity;
+
+	if (Position.y > groundY)
+	{
+		Position.y = groundY;
+		mOnGround = true;
+		Velocity.y = 0;
+	}
+
+	if (Position.x > 1200)
+	{
+		Position.x = 1200;
+		Velocity.x = 0;
+	}
+
+	if (Position.x < 10)
+	{
+		Position.x = 10;
+		Velocity.x = 0;
+	}
+
+	body->Vertices[0]->Position = Vector2(Position.x + Velocity.x,			Position.y - Velocity.y);
+	body->Vertices[1]->Position = Vector2(Position.x + 50 + Velocity.x,	Position.y + Velocity.y);
+	body->Vertices[2]->Position = Vector2(Position.x + 50 + Velocity.x,	Position.y + 50 + Velocity.y);
+	body->Vertices[3]->Position = Vector2(Position.x + Velocity.x,			Position.y + 50 - Velocity.y);
+
+	body->CalculateCenter();
+}
+
+void CW::Player::Draw(Renderer* renderer)
+{
+	glDisable(GL_BLEND);
+
+	sf::ConvexShape convex;
+
+	// resize it to 5 points
+	convex.setPointCount(body->VertexCount);
+
+	convex.setFillColor(sf::Color::Red);
+
+	for (int i=0; i<body->VertexCount; ++i)
+	{
+		convex.setPoint(i, body->Vertices[i]->Position);
+	}
+
+	renderer->Draw(convex);
+
+	glEnable(GL_BLEND);
 }

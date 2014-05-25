@@ -2,8 +2,12 @@
 #define PRECOMPILED_H
 #pragma once
 
+#include <string>
+#include <fstream>
+
 #include <SFML\Graphics.hpp>
 #include <SFML\OpenGL.hpp>
+#include <SFML\Audio.hpp>
 
 #include "Renderer.h"
 
@@ -14,6 +18,7 @@
 
 #include "SceneObject.h"
 #include "Player.h"
+#include "Player2.h"
 #include "Light.h"
 #include "Fire.h"
 
@@ -25,7 +30,9 @@
 #include "PhysicsEngine.h"
 
 #include "Particle.h"
+#include "SmokeParticle.h"
 #include "DustParticle.h"
+#include "SmokeManager.h"
 #include "ParticleEmitter.h"
 #include "GlobalEmitter.h"
 #include "ParticleEmitterFactory.h"
@@ -35,6 +42,10 @@
 
 #include "Screen.h"
 #include "ScreenManager.h"
+
+#include "Terrain.h"
+#include "CeilingTerrain.h"
+#include "Background.h"
 
 #include "GameScreen.h"
 #include "MainMenu.h"

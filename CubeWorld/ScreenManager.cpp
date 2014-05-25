@@ -1,6 +1,5 @@
 #include "Precompiled.h"
 
-
 CW::ScreenManager::ScreenManager(void)
 {
 }
@@ -21,6 +20,16 @@ void CW::ScreenManager::GoToScreen(char* screenName)
 			m_CurrentScreen = s;
 		}
 	}
+}
+
+void CW::ScreenManager::NotifyKeyPressed(sf::Keyboard::Key key)
+{
+	m_CurrentScreen->NotifyKeyPressed(key);
+}
+
+void CW::ScreenManager::NotifyKeyReleased(sf::Keyboard::Key key)
+{
+	m_CurrentScreen->NotifyKeyReleased(key);
 }
 
 void CW::ScreenManager::Update(float dt)

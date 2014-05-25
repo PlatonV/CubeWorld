@@ -2,16 +2,18 @@
 #define APPLICATION_H
 #pragma once
 
-#include "Precompiled.h"
-
 namespace CW
 {
 	class Application
 	{
 	public:
+		ScreenManager sm;
+
 		Application(void);
 
 		int Run(void);
+
+		void Reset(void);
 
 		void Exit(void);
 
@@ -25,8 +27,6 @@ namespace CW
 		sf::Text m_DisplayText;
 
 		Renderer* renderer;
-
-		ScreenManager sm;
 
 		void Init(void);
 		int LoadBasicAssets(void);

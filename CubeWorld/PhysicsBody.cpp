@@ -89,14 +89,14 @@ CW::PhysicsBody* CW::PhysicsBody::CreateBox(float x, float y, float width, float
 	return b;
 }
 
-CW::PhysicsBody* CW::PhysicsBody::CreateBoulder(float x, float y, float width, float height) 
+CW::PhysicsBody* CW::PhysicsBody::CreateBoulder(float x, float y, int size) 
 {
 	PhysicsBody* b = new PhysicsBody();
 
-	VerletPoint* V1 = new VerletPoint(x, y);
-	VerletPoint* V2 = new VerletPoint(x+50, y);
-	VerletPoint* V3 = new VerletPoint(x+50, y+50);
-	VerletPoint* V4 = new VerletPoint(x, y+50);
+	VerletPoint* V1 = new VerletPoint(x - rand() % size/5, y - rand() % size/5);
+	VerletPoint* V2 = new VerletPoint(x+50 + rand() % size/5, y - rand() % size/5);
+	VerletPoint* V3 = new VerletPoint(x+50 + rand() % size/5, y+50 + rand() % size/5);
+	VerletPoint* V4 = new VerletPoint(x - rand() % size/5, y+50 + rand() % size/5);
 
 	b->AddVertex(V1);
 	b->AddVertex(V2);

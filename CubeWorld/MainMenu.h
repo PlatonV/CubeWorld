@@ -2,6 +2,8 @@
 #define MAINMENU_H
 #pragma once
 
+#include <SFML\Audio.hpp>
+
 namespace CW
 {
 	class Application;
@@ -30,16 +32,18 @@ namespace CW
 		void MenuUp(void);
 		void Enter(void);
 
+		void NotifyKeyPressed(sf::Keyboard::Key key);
+		void NotifyKeyReleased(sf::Keyboard::Key key);
+
 		void Update(float dt);
 		void Draw(Renderer* renderer);
 
 		~MainMenuScreen() {}
 
 	private:
-		Application* App;
+		int Highscore;
 
-		bool upressed;
-		bool dpressed;
+		Application* App;
 
 		sf::RenderWindow* m_ParentWindow;
 
@@ -51,11 +55,23 @@ namespace CW
 		Button* OptionsButton;
 		Button* ExitButton;
 
+		sf::Music music;
+		sf::SoundBuffer soundBuffer;
+
+		sf::Sound clickSound;
+
 		sf::Font ArialFont;
 		sf::Text StartText;
+		sf::Text HighScoreText;
 
 		sf::Texture BGTexture;
 		sf::Sprite BGSprite;
+
+		sf::Texture KeyboardTexture;
+		sf::Sprite KeyboardSprite;
+
+		sf::Texture JoystickTexture;
+		sf::Sprite JoystickSprite;
 	};
 }
 

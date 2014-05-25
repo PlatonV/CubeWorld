@@ -26,6 +26,7 @@ namespace CW
 		PhysicsBody(std::vector<VerletPoint*> vertices);
 
 		void AddVertex(VerletPoint* V);
+		void AddEdge(VerletPoint* p1, VerletPoint* p2, bool collidable);
 
 		void ProjectToAxis(Vector2& Axis, float& Min, float& Max );
 		void CalculateCenter();
@@ -34,12 +35,10 @@ namespace CW
 		void EndCreation(void);
 
 		static PhysicsBody* CreateBox(float y, float x, float width, float height);
-		static PhysicsBody* CreateBoulder(float y, float x, float width, float height);
+		static PhysicsBody* CreateBoulder(float y, float x, int size);
 
 	private:
 		bool m_Creating;
-
-		void AddEdge(VerletPoint* p1, VerletPoint* p2, bool collidable);
 	};
 }
 
